@@ -105,11 +105,19 @@ export default function Layout() {
           <span>
             © {new Date().getFullYear()} {name}
           </span>
-          {ready && !user && (
-            <Link to="/login" className="muted">
-              Đăng nhập để bình luận
+          <span className="footer-links">
+            <Link to="/privacy" className="muted">
+              Quyền riêng tư
             </Link>
-          )}
+            <Link to="/terms" className="muted">
+              Điều khoản
+            </Link>
+            {ready && !user && (
+              <Link to="/login" className="muted">
+                Đăng nhập để bình luận
+              </Link>
+            )}
+          </span>
         </div>
       </footer>
     </div>

@@ -310,6 +310,26 @@ p {
   padding-block: 1.75rem;
 }
 
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+/* ---- privacy / terms pages ----------------------------------------------------------------------- */
+.legal h2 {
+  font-size: 1.15rem;
+  margin: 2rem 0 0.5rem;
+}
+
+.legal ul {
+  padding-left: 1.25rem;
+}
+
+.legal li + li {
+  margin-top: 0.4rem;
+}
+
 /* ---- buttons ----------------------------------------------------------------------------------- */
 .btn {
   display: inline-flex;

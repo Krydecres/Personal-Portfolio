@@ -7,6 +7,7 @@ import { useProfile } from './lib/useProfile.js';
 import Account from './pages/Account.jsx';
 import AuthCallback from './pages/AuthCallback.jsx';
 import Home from './pages/Home.jsx';
+import { PrivacyPolicy, TermsOfService } from './pages/Legal.jsx';
 import Login from './pages/Login.jsx';
 import NotFound from './pages/NotFound.jsx';
 import PostDetail from './pages/PostDetail.jsx';
@@ -43,6 +44,8 @@ export default function App() {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="auth/callback" element={<AuthCallback />} />
+            <Route path="privacy" element={<PrivacyPolicy />} />
+            <Route path="terms" element={<TermsOfService />} />
             <Route
               path="account"
               element={
