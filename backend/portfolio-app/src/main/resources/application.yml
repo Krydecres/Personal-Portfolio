@@ -1,0 +1,84 @@
+# ---------------------------------------------------------------------------------------------
+# All secrets come from environment variables (or a local, git-ignored .env file). Nothing secret
+# is committed here. See ../.env.example for the full list.
+# ---------------------------------------------------------------------------------------------
+spring:
+  application:
+    name: portfolio
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:../.env[.properties]
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:portfolio}?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8&connectionTimeZone=UTC&sslMode=PREFERRED&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    open-in-view: false            # no lazy loading from the web layer; services return DTOs
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  servlet:
+    multipart:
+      enabled: false               # no file uploads accepted: removes a whole class of attacks
+  jackson:
+    default-property-inclusion: non_null
+
+server:
+  port: ${PORT:8080}
+  # Behind the hosting platform's HTTPS proxy: trust X-Forwarded-Proto/-For from private-network proxies only,
+  # so redirect URIs use https and the rate limiter sees the real client IP.
+  forward-headers-strategy: ${FORWARD_HEADERS_STRATEGY:native}
+  error:
+    include-stacktrace: never
+    include-message: never
+    include-exception: false
+    include-binding-errors: never
+    whitelabel:
+      enabled: false
+  servlet:
+    session:
+      timeout: 5m                  # session only lives during the Google OAuth handshake
+      cookie:
+        http-only: true
+        same-site: lax             # must be lax: Google redirects back with a top-level GET
+        secure: ${COOKIE_SECURE:true}
+        name: PF_OAUTH
+  tomcat:
+    max-swallow-size: 2MB
+
+app:
+  security:
+    frontend-url: ${FRONTEND_URL:http://localhost:5173}
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173}
+    admin-emails: ${ADMIN_EMAILS:}
+    first-user-admin: ${FIRST_USER_ADMIN:true}
+    jwt:
+      secret: ${JWT_SECRET:}
+      issuer: portfolio-api
+      access-token-ttl: 15m
+    refresh:
+      ttl: ${SESSION_TTL:1d}          # absolute: refreshing never extends past this
+      cookie-secure: ${COOKIE_SECURE:true}
+    lockout:
+      max-attempts: 5
+      duration: 15m
+    google:
+      client-id: ${GOOGLE_CLIENT_ID:}
+      client-secret: ${GOOGLE_CLIENT_SECRET:}
+  rate-limit:
+    enabled: true
+    login: 10
+    register: 5
+    refresh: 30
+    comment: 10
+    general: 300
+
+logging:
+  level:
+    org.springframework.security: INFO

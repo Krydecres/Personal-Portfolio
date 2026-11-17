@@ -1,0 +1,12 @@
+# Never send secrets or build output into the Docker build context
+**/.env
+**/*.env
+!**/.env.example
+**/node_modules
+**/target
+frontend/dist
+backend/portfolio-app/src/main/resources/static
+.git
+.claude
+.idea
+.vscode
